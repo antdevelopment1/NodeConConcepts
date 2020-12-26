@@ -1,4 +1,6 @@
 const https = require('https');
+const  crypto = require('crypto');
+const fs = require('fs');
 
 const start = Date.now();
 
@@ -11,9 +13,21 @@ function doRequest() {
     }).end();   
 }
 
+function doHash() {
+    crypto.pbkdf2('a', 'b', 100000, 512, 'sha512', () => {
+        // Will print how long it takes in milliseconds to calcultae a hash value
+        console.log('Hash:', Date.now() - start);
+    });
+}
+
 doRequest();
-doRequest();
-doRequest();
-doRequest();
-doRequest();
-doRequest();
+
+fs.readFile('async.js', 'utf8', () => {
+    console.log('FS:', Date.now() - start);
+})
+
+// doHash();
+// doHash();
+// doHash();
+// doHash();
+
